@@ -1,0 +1,58 @@
+﻿<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript" src="../js/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../js/highcharts.js"></script>
+    <script type="text/javascript" src="../js/modules/exporting.js" ></script> 
+
+</head>
+<body>
+    <div id="container" style="min-width:400px;height:450px"></div>
+    <div style="margin:10px 0px 10px 20px;">
+        <button class='change' index="title">更新标题</button>
+        <button class='change' index="title2">更新标题颜色</button>
+        <button class='change' index="subtitle">更新副标题</button>
+        <button class='change' index="subtitle2">标题包含html标签</button>
+    </div>
+    <script>
+        $(function(){
+            var i = 1,chart;
+            $('#container').highcharts({
+                chart:{
+                    type:"column"
+                },
+                subtitle:{
+                    text:'subtitle'
+                },
+                plotOptions:{
+                    column:{
+                        colorByPoint:true
+                    }
+                },
+                xAxis:{
+                    categories:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                series:[{
+                    data:[29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                }]
+            });
+
+            chart = $('#container').highcharts();
+
+            $("button.change").click(function(){
+                var index = $(this).attr("index");
+                if (index == "title") {
+                    chart.setTitle({ text: 'New title'+i++});
+                } else if (index == "title2") {
+                    chart.setTitle({ style:{color:'red'}},{style:{color:'#760000'}});
+                } else if (index == "subtitle") {
+                    chart.setTitle(null,{text: 'New title'+i++});
+                } else if (index == "subtitle2") {
+                    chart.setTitle({ text:"<a href='http://www.hcharts.cn'>Highcharts中文网</a>",useHTML:true});
+                }
+            })
+        });
+    </script>
+</body>
+</html>

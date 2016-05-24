@@ -1,0 +1,328 @@
+﻿<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>图表配置（Chart）</title>
+</head>
+<body>
+<h3>
+    一、坐标轴组成部分
+</h3>
+<h4>
+    1、Axis Title
+</h4>
+<p>
+    坐标轴标题。默认情况下，x轴为<code>null</code>（也就是没有title），y轴为<code>&#39;Value&#39;</code>，设置坐标轴标题的代码如下：
+</p>
+<pre class="brush:js">xAxis:{
+   title:{
+       text:&#39;x轴标题&#39;
+   }
+}
+yAxis:{
+   title:{
+       text:&#39;y轴标题&#39;
+   }
+}
+</pre>
+<p>
+    更多关于Axis Title属性请查看API文档相关内容 <a href="http://www.highcharts.me/api/index.php#xAxis.title" target="_blank">xAxis.title</a>、<a href="http://www.highcharts.me/api/index.php#yAxis.title" target="_blank">yAxis.title</a>。
+</p>
+<h4>
+    2、Axis Labels
+</h4>
+<p>
+    坐标轴标签（分类）。Labels常用属性有<code>enabled</code>、<code>formatter</code>、<code>setp</code>、<code>staggerLines</code> 
+</p>
+<h5>
+    1）enabled
+</h5>
+<p>
+    是否启用Labels。x，y轴默认值都是<code>true</code>，如果想禁用（或不显示）Labels，设置该属性为<code>false</code>即可。
+</p>
+<h5>
+    2）Formatter
+</h5>
+<p>
+    标签格式化函数。默认实现是：
+</p>
+<pre class="brush:js">formatter:function(){
+    return this.value;
+}
+</pre>
+<p>
+    <code>this.value</code>代码坐标轴上当前点的值（也就是x轴当前点的x值，y轴上当前点的y值），除了<code>value</code>变量外，还有<code>axis</code>、<code>chart</code>、<code>isFirst</code>、<code>isLast</code>可用。例如调用this.isFirst的结果如下图所示
+</p>
+<div class="center">
+    <img src="images/basic_axis2.jpg" class="img" width="478px" height="157px" /> 
+    <div class="img_title">
+        Custom Labels formatter 1
+    </div>
+</div>
+<p>
+    另外一个例子，实现更高级的自定义格式化函数，截图如下：
+</p>
+<div class="center">
+    <img src="images/basic_axis3.jpg" class="img" width="532px" height="353px" /> 
+    <div class="img_title">
+        Custom Labels formatter 2
+    </div>
+</div>
+<p>
+    实现代码如下：
+</p>
+<p>
+    <br />
+</p>
+<pre class="prettyprint lang-js">yAxis: {        
+  labels: {
+    formatter:function(){
+      if(this.value &lt;=100) { 
+        return "第一等级("+this.value+")";
+      }else if(this.value &gt;100 &amp;&amp; this.value &lt;=200) { 
+        return "第二等级("+this.value+")"; 
+      }else { 
+        return "第三等级("+this.value+")";
+      }
+    }
+  }
+}, </pre>
+<h5>
+    3）Step
+</h5>
+<p>
+    Labels显示间隔，数据类型为number（或int）。下图说明了step的用法和作用
+</p>
+<img src="images/basic_axis4.jpg" class="img" /> 
+<div class="img_title">
+    Y Lables width step
+</div>
+<h5>
+    4）staggerLines
+</h5>
+<p>
+    水平轴Lables显示行数。（该属性只对水平轴有效）当Lables内容过多时，可以通过该属性控制显示的行数。和该属性相关的还有<a href="http://www.highcharts.me/api/index.php#yAxis.labels.maxStaggerLines">maxStaggerLines</a>属性。
+</p>
+<p>
+    更多关于Lables的属性请查看API文档 <a href="http://www.highcharts.me/api/index.php#xAxis.labels" target="_blank">xAxis.labels</a>、<a href="http://www.highcharts.me/api/index.php#yAxis.labels" target="_blank">yAxis.labels</a> 
+</p>
+<h4>
+    3、Axis Tick
+</h4>
+<p>
+    Tick为坐标轴刻度。默认情况下x轴刻度高(<code>tickLength</code>属性)为5px，宽为1px；y轴宽为0px(也就是不显示刻度)。Tick相关的属性主要有<code>tickLength</code>、<code>tickWidth</code>、<code>tickColor</code>、<code>tickInterval</code>、<code>tickmarkPlacement</code>。
+</p>
+<h5>
+    1）tickLength、tickWidth、tickColor
+</h5>
+<p>
+    分别代表刻度线的长度、宽度、颜色。
+</p>
+<h5>
+    2）tickInterval
+</h5>
+<p>
+    刻度间隔。其作用和<code>Lables.step</code>类似，就是不显示过多的x轴标签内容，不同的是，<code>tickInterval</code>是真正意义上的调整刻度，而<code>Lables.step</code>只是调整Labels显示间隔。所以在实际应用中，<code>tickInterval</code>用的多。
+</p>
+<p>
+    针对不同数据类型的坐标轴有不同的默认值。对于线性数据和<code>Datetime</code>类型数据，其默认值是<a href="http://www.highcharts.me/api/index.php#xAxis.tickPixelInterval" target="_blank">tickPixelInterval</a>值，对于<code>Categorty</code>表示间隔一个category。
+</p>
+<p>
+    关于<code>tickInterval</code>的作用，请访问博客中相关内容 《<a href="http://www.52wulian.org/highcharts-tickinterval/" target="_blank">如何处理Highcharts X轴数据过多时显示问题</a>》。
+</p>
+<h5>
+    3）tickmarkPlacement
+</h5>
+<p>
+    刻度线对齐方式，有<code>between</code>和<code>on</code>可选，默认是<code>between</code>。设置为<code>on</code>后的变化如下图：
+</p>
+<div class="center">
+    <img src="images/basic_axis5.jpg" class="img" /> 
+    <div class="img_title">
+        xAxis tickmarkPlacement on
+    </div>
+</div>
+<p>
+    更多关于Tick的属性请查看API文档。
+</p>
+<h4>
+    4、Axis gridLines
+</h4>
+<p>
+    坐标轴网格线。默认情况下，x轴网格线宽度为0,y轴网格线宽度为1px。网格线共有三个属性可设置，分别是: <code>gridLineWidth</code>、<code>gridLineColor</code>、<code>gridLineDashStyle</code> 
+</p>
+<h5>
+    1）gridLineWidth
+</h5>
+<p>
+    网格线宽度。x轴默认为0，y轴默认为1px。
+</p>
+<h5>
+    2）gridLineColor
+</h5>
+<p>
+    网格线颜色。默认为：<code>#C0C0C0</code>。
+</p>
+<h5>
+    3）gridLineDashStyle
+</h5>
+<p>
+    网格线线条样式。和Css border-style类似，常用的有：<code>Solid</code>、<code>Dot</code>、<code>Dash</code>。
+</p>
+<p>
+    下图为自定义x和y轴的gridLines效果图
+</p>
+<div class="center">
+    <img class="img" src="images/basic_axis6.jpg" width="680px" height="363px" /> 
+    <div class="img_title">
+        Custom gridLines
+    </div>
+</div>
+<h4>
+    4、multiple Axis
+</h4>
+<p>
+    多个轴。在Highcharts中， 坐标可以是多个，最常见的是多个y轴。多轴存在时，Axis是一个数组，而在赋值时，通过Axis数组的下标与数据关联。如下图所示：
+</p>
+<img src="images/basic_axis7.jpg" class="img" /> 
+<div class="img_title">
+    About multiple Axis
+</div>
+<p>
+    总结如下：
+</p>
+<ul>
+    <li>
+        <code>Series</code>中设置每个轴值时，用轴数组下标关联。
+    </li>
+    <li>
+        设置<code>opposite: true</code>表示该轴位置反转，即为y轴时显示在右侧，为x轴时显示在顶部（和正常情况下x轴在下，y轴左构成反转）。
+    </li>
+    <li>
+        在<code>Series</code>中可以设置该轴的类型，多个轴不同的类型（例如：type:&#39;spline&#39;），就构成了多种图表并存的混合图。
+    </li>
+</ul>
+<p>
+    更多关于多轴、混合图请查看在线演示平台的 <a href="http://www.highcharts.me/demo/index.php?p=52" target="_blank">两个(Y)轴的混合图</a>、<a href="http://www.highcharts.me/demo/index.php?p=53" target="_blank">多个(Y)轴的混合图</a>。
+</p>
+<br />
+<h3>
+    二、坐标轴类型
+</h3>
+<p>
+    坐标轴中，可以通过<code>Type</code>指定坐标轴类型，有<code>linear</code>、<code>logarithmic</code>、<code>datetime</code>、<code>category</code>可选，默认是：<code>linear</code>。指定类型的实例代码如下：
+</p>
+<pre class="brush:js">// The types are &#39;linear&#39;, &#39;logarithmic&#39; and &#39;datetime&#39;
+yAxis: {
+    type: &#39;linear&#39;,
+}
+
+// Categories are set by using an array
+xAxis: {
+    categories: [&#39;Apples&#39;, &#39;Bananas&#39;, &#39;Oranges&#39;]
+}
+</pre>
+<h4>
+    1、linear
+</h4>
+<p>
+    线性轴。默认类型，x轴按照<code>Axis.tickInterval</code>值增长，y轴默认是自适应。
+</p>
+<h4>
+    2、logarithmic
+</h4>
+<p>
+    对数轴。按照数学中的对数增长，例如1,2,4,8... 用的不多，主要用于对数图表，实例请查看在线演示平台的 <a href="http://www.highcharts.me/demo/index.php?p=17" target="_blank">对数直线图</a>。
+</p>
+<h4>
+    3、datetime
+</h4>
+<p>
+    时间轴。时间使用和Javascript 日期对象一样，即用一个距1970年1月1日0时0分0秒的毫秒数表示时间，也就是时间戳。更多Javascript 日期对象请阅读 <a href="http://www.w3school.com.cn/js/js_obj_date.asp" target="_blank">W3C school</a> 相关内容。
+</p>
+<p>
+    Highcharts有很多时间格式化函数，列举如下：
+</p>
+<h5>
+    1）Date.getTime()
+</h5>
+<p>
+    获取当前时间戳。实例用法如下：
+</p>
+<pre class="brush:js">time = Date.getTime();   //time = 1384442746960 (ms)  当前时间为 2013-11-14 23:25:46
+</pre>
+<h5>
+    2）Date.UTC(year,month,day,hours,minutes,seconds,millisec)
+</h5>
+<p>
+    通过UTC方式获取指定时间的毫秒数，例如获取 2013-11-14 00:00:00的毫秒数代码如下：
+</p>
+<pre class="brush:js">time = Date.UTC(2013,11,14,0,0,0,0);  // time = 1386979200000 (ms);
+</pre>
+<h5>
+    3）Highcharts.dateFormat(String format)
+</h5>
+<p>
+    Highcharts时间格式化函数，同 <a href="http://php.net/manual/en/function.strftime.php" target="_blank">PHP格式化函数</a>。具体用法参考API文档 <a href="http://www.highcharts.me/api/index.php#Highcharts.dateFormat()" target="_blank">Highcharts.dateFormat()</a> ，当然，在本教程的《函数使用》章节中具体讲解。
+</p>
+<h4>
+    4、category
+</h4>
+<p>
+    数组轴。用的最多也最简单，这里就不多说，更多请查看<a href="http://www.highcharts.me/demo/index.php" target="_blank">在线演示平台</a>例子。
+</p>
+<br />
+<h3>
+    三、动态更新及其他相关属性
+</h3>
+<h4>
+    1、动态更新
+</h4>
+<p>
+    坐标轴可以通过函数实现动态更新，在图表绘制完毕后，你可以任意的对你更改而不需要重绘。所有相关函数都在 <a href="http://www.highcharts.me/api/index.php#Axis" target="_blank">Axis</a> 中，本教程将在《函数使用》章节具体讲解。
+</p>
+<h4>
+    2、其他相关属性
+</h4>
+<p>
+    出了Axis中的属性可以对坐标轴有影响外，还有其他属性也可以对其起作用。列举如下：
+</p>
+<h5>
+    1）reversed
+</h5>
+<p>
+    图表反转，即 <code>Chart.reversed</code>，当其值设置为<code>true</code>时，x轴和y轴显示的位置对调。详情请查看在线演示平台 <a href="http://www.highcharts.me/demo/index.php?p=13" target="_blank">轴反转的曲线图</a>。
+</p>
+<h5>
+    <strong>2）</strong><strong>allowDecimals</strong> 
+</h5>
+<p>
+    控制数轴是否显示小数。
+</p>
+<h5>
+    <strong>3）</strong><strong>min、max</strong> 
+</h5>
+<p>
+    控制数轴的最小值和最大值。
+</p>
+<p>
+    <span style="color:#E53333;">注意：控制</span><span style="color:#E53333;">allowDecimals、min、max 属性你可以轻松控制数轴的显示范围等（这也是很常见的问题）</span> 
+</p>
+<h5>
+    <strong>4）opposite</strong> 
+</h5>
+<p>
+    轴倒置。和reversed不同的是，倒置是将轴倒置而不是x、y对调。例如y轴倒置的结果是y轴是从最大的值开始的，最小值反而在最下方。
+</p>
+<h5>
+    <strong>5）plotLines</strong>
+</h5>
+<p>
+    标示线，详见：<a href="http://www.hcharts.cn/docs/index.php?doc=basic-plotLines" target="_blank">http://www.hcharts.cn/docs/index.php?doc=basic-plotLines</a> 
+</p>
+<h5>
+    <strong>6）plotBands</strong>
+</h5>
+<p>
+    标示区域，详见：<a href="http://www.hcharts.cn/docs/index.php?doc=basic-plotBands" target="_blank">http://www.hcharts.cn/docs/index.php?doc=basic-plotBands</a> 
+</p>
+    
+</body>

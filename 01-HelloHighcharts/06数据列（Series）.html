@@ -1,0 +1,33 @@
+﻿<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript" src="../js/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../js/highcharts.js"></script>
+    <script type="text/javascript" src="../js/modules/exporting.js" ></script> 
+
+</head>
+<body>
+    <div id="container" style="min-width:400px;height:450px"></div>
+    <script>
+        $(function(){
+            $('#container').highcharts({
+                series:[{
+                    data:[-10, -5, 0, 5, 10, 15, 10, 10, 5, 0, -5],
+                    zones:[{
+                            value:0,
+                            color:'#f7a35c',
+                            dashStyle:'dot'
+                        },{
+                            value:10,
+                            color:'#7cb5ec'
+                        },{
+                            color:'#90ed7d'
+                        }
+                    ]
+                }]
+            });
+        });
+    </script>
+</body>
+</html>
